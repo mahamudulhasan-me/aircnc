@@ -1,6 +1,7 @@
 import React from "react";
 import Container from "../Container/Container";
 import Logo from "./Logo";
+import MenuDropdown from "./MenuDropdown";
 import Search from "./Search";
 
 const Navbar = () => {
@@ -12,7 +13,7 @@ const Navbar = () => {
             <Logo />
             <Search />
 
-            <div>user</div>
+            <MenuDropdown />
           </div>
         </Container>
       </div>
