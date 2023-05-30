@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAxvr1Mbmv_0nRGcss1CFB1zpHehVeL9tY",
-  authDomain: "aircnc-636ab.firebaseapp.com",
-  projectId: "aircnc-636ab",
-  storageBucket: "aircnc-636ab.appspot.com",
-  messagingSenderId: "818975532659",
-  appId: "1:818975532659:web:6cdcab2a6a236849eeac06",
+  apiKey: "AIzaSyAepYkK5o43c3PTzHeoJcRNCBVJiORXnuI",
+  authDomain: "aircnc-7a61f.firebaseapp.com",
+  projectId: "aircnc-7a61f",
+  storageBucket: "aircnc-7a61f.appspot.com",
+  messagingSenderId: "369328807054",
+  appId: "1:369328807054:web:e315536ff1c72fe2c7bddf",
 };
 
 // Initialize Firebase
