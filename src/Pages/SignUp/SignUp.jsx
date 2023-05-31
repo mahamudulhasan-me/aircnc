@@ -3,19 +3,67 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
+import { TbFidgetSpinner } from "react-icons/tb";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const SignUp = () => {
-  const { signInWithGoogle } = useContext(AuthContext);
+  const {
+    loading,
+    setLoading,
+    createUser,
+    signInWithGoogle,
+    updateUserProfile,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.state?.from?.pathname || "/";
+
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
         const user = result.user;
         toast.success(`Welcome ${user.displayName}`);
         navigate(path, { replace: true });
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        setLoading(false);
+      });
+  };
+  const handleCreateUser = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    // image post on imgBB
+    const image = form.image.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const imgBBUrl = `https://api.imgbb.com/1/upload?key=2d2ae9c5dd9e1059fbd193b5ec64e3fe`;
+
+    fetch(imgBBUrl, { method: "POST", body: formData })
+      .then((response) => response.json())
+      .then((data) => {
+        const imageURL = data.data.display_url;
+        createUser(email, password)
+          .then(() => {
+            updateUserProfile(name, imageURL)
+              .then(() => {
+                toast.success(`Account created successfully`);
+                navigate(path, { replace: true });
+              })
+              .catch((error) => {
+                toast.error(error.message);
+                setLoading(false);
+              });
+          })
+          .catch((error) => {
+            toast.error(error.message);
+            setLoading(false);
+          });
       })
       .catch((error) => {
         toast.error(error.message);
@@ -30,6 +78,7 @@ const SignUp = () => {
           <p className="text-sm text-gray-400">Welcome to AirCNC</p>
         </div>
         <form
+          onSubmit={handleCreateUser}
           noValidate=""
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
@@ -96,7 +145,11 @@ const SignUp = () => {
               type="submit"
               className="bg-rose-500 w-full rounded-md py-3 text-white"
             >
-              Continue
+              {loading ? (
+                <TbFidgetSpinner className="m-auto animate-spin" size={24} />
+              ) : (
+                "Continue"
+              )}
             </button>
           </div>
         </form>

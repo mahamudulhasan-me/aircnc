@@ -29,7 +29,7 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    signIn()
+    signIn(email, password)
       .then((result) => {
         navigate(path, { replace: true });
         toast.success(`Welcome ${result.user.displayName}`);
